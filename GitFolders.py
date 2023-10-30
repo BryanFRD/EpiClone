@@ -15,3 +15,6 @@ class GitFolders:
                     'path': root
                 })
         return gitFolders
+
+    def isEmpty(self) -> bool:
+        return len(os.listdir(self.rootFolder)) == 1 and '.git' in os.listdir(self.rootFolder)

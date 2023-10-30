@@ -24,6 +24,7 @@ def foldersMode():
             api.createNewRepository(gitFolder['name'])
             command.addOrigin(gitFolder['path'])
             command.push()
+            command.removeOrigin()
 
 
 def cloneMode():
@@ -62,12 +63,14 @@ def cloneMode():
             api.createNewRepository(repository['name'])
 
         command_repo = Commands(temp_directory + "/" + repository['name'])
+        git_folder = GitFolders(temp_directory + "/" + repository['name'])
 
-        # Add origin to all repositories inside the temp folder
-        command_repo.addOrigin(f"git@github.com:{username}/{repository['name']}.git")
+        if not git_folder.isEmpty():
+            # Add origin to all repositories inside the temp folder
+            command_repo.addOrigin(f"git@github.com:{username}/{repository['name']}.git")
 
-        # Push all repositories inside the temp folder
-        command_repo.push()
+            # Push all repositories inside the temp folder
+            command_repo.push()
 
         # Delete repository inside the temp folder
         command_repo.deleteFolder(temp_directory + "/" + repository['name'])
