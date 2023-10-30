@@ -1,19 +1,15 @@
-import os
-from GithubApi import GithubApi
-from GitFolders import GitFolders
-from dotenv import load_dotenv
+from Mode import *
+
 
 def __main__() -> None:
-    load_dotenv()
-    gitFolders = GitFolders('/home/username')
-    api = GithubApi(os.getenv('GITHUB_API_TOKEN'), os.getenv('GITHUB_USERNAME'))
-    for gitFolder in gitFolders.getGitFolders():
-        if not api.checkIfRepositoryExists(gitFolder['name']):
-            api.createNewRepository(gitFolder['name'])
+    mode = chooseMode()
 
-
-
-    print(gitFolders.getGitFolders())
+    if mode == "1":
+        foldersMode()
+    elif mode == "2":
+        cloneMode()
+    else:
+        print("Invalid mode")
 
 
 if __name__ == '__main__':

@@ -21,3 +21,7 @@ class Commands:
     def deleteFolder(self, folder) -> None:
         os.system(f"rm -rf {folder}")
         print(f"Deleted {folder}")
+
+    def createTempDirectory(self):
+        os.system(f"mkdir temp")
+        print(f"Created temp directory")
