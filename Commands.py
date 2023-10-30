@@ -11,11 +11,11 @@ class Commands:
         print(f"Cloned {url} to {self.folder}")
 
     def addOrigin(self, url) -> None:
-        os.system(f"cd {self.folder} && git remote add {self._remote} {url}")
+        os.system(f"cd {self.folder} && git remote rm {self._remote} && git remote add origin {url}")
         print(f"Added origin {url}")
 
     def push(self) -> None:
-        os.system(f"cd {self.folder} && git push {self._remote} main")
+        os.system(f"cd {self.folder} && git push")
         print(f"Pushed to origin")
 
     def deleteFolder(self, folder) -> None:
