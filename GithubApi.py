@@ -25,7 +25,7 @@ class GithubApi:
             "has_wiki": True
         }
 
-        response = requests.post(url, data, headers=headers)
+        response = requests.post(url, json=data, headers=headers)
 
         if response.status_code == 201:
             print(f"\n[SUCCESS] 🟢 Repository '{name}' has been created successfully!\n")

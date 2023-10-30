@@ -55,10 +55,14 @@ def cloneMode():
 
     for repository in repositories:
         # Clone all repositories inside the temp folder
-        command_temp.clone(repository['html_url'])
+        command_temp.clone(repository['ssh_url'])
+
+        # Check if repository exists and create it if it doesn't
+        if not api.checkIfRepositoryExists(repository['name']):
+            api.createNewRepository(repository['name'])
 
         # Add origin to all repositories inside the temp folder
-        command_temp.addOrigin(repository['ssh_url'])
+        command_temp.addOrigin(f"git@github.com:{username}/{repository['name']}.git")
 
         # Push all repositories inside the temp folder
         command_temp.push()
