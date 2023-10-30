@@ -11,7 +11,7 @@ class Commands:
         print(f"Cloned {url} to {self.folder}")
 
     def addOrigin(self, url) -> None:
-        os.system(f"cd {self.folder} && git remote rm {self._remote} && git remote add origin {url}")
+        os.system(f"cd {self.folder} && git remote rm origin && git remote add origin {url}")
         print(f"Added origin {url}")
 
     def push(self) -> None:
