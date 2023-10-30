@@ -1,5 +1,6 @@
 import string
 import requests
+from PrintHelper import *
 
 class GithubApi:
 
@@ -17,7 +18,7 @@ class GithubApi:
         }
         data = {
             "name": name,
-            "description": "Project" + name + " created with Epitech's Clone project",
+            "description": "Project " + name + " created with Epitech's Clone project",
             "homepage": "https://github.com",
             "private": isPrivate,
             "has_issues": True,
@@ -28,7 +29,7 @@ class GithubApi:
         response = requests.post(url, json=data, headers=headers)
 
         if response.status_code == 201:
-            print(f"\n[SUCCESS] 🟢 Repository '{name}' has been created successfully!\n")
+            print_success(f"[SUCCESS] 200 : Repository '{name}' has been created successfully!")
             return True
         else:
             print(f"\n[ERROR] ❌ Failed to create repository '{name}'. Details:")
