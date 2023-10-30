@@ -52,5 +52,16 @@ class GithubApi:
         else:
             return False
 
+    def getAllRepositoriesByAnOrganization(self, organizationName: string):
+        url = self.GITHUB_API_URL + f"/orgs/{organizationName}/repos"
+        headers = {
+            "Authorization": "Bearer " + self._token
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            return response.json()
+
     def getUsername(self):
         return self._username
