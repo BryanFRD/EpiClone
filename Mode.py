@@ -4,18 +4,18 @@ from Commands import Commands
 from GithubApi import GithubApi
 from GitFolders import GitFolders
 from dotenv import load_dotenv
+from Inputs import *
 
 # load environment variables
 load_dotenv()
 
 
 def chooseMode():
-    return input("Choose mode: \n1. Create new repositories from folders \n2. Clone repositories and create them from "
-                 "Github url\n")
+    return get_mode()
 
 
 def foldersMode():
-    folder_path = input("Enter folder path: ")
+    folder_path = get_folder_path()
     gitFolders = GitFolders(folder_path)
     api = GithubApi(os.getenv('GITHUB_API_TOKEN'), os.getenv('GITHUB_USERNAME'))
     command = Commands(folder_path)
@@ -28,9 +28,9 @@ def foldersMode():
 
 def cloneMode():
     # Get environment variables
-    token = os.getenv('GITHUB_API_TOKEN') if os.getenv('GITHUB_API_TOKEN') else input("Enter your Github token: ")
-    username = os.getenv('GITHUB_USERNAME') if os.getenv('GITHUB_USERNAME') else input("Enter your Github username: ")
-    organizationName = input("Enter organization name: ")
+    token = get_github_token()
+    username = get_github_username()
+    organizationName = get_organization_name()
 
     # Create GithubApi instance
     api = GithubApi(token, username)
