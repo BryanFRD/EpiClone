@@ -1,8 +1,6 @@
 import os
 class Commands:
 
-    _remote = "epitech_clone_project"
-
     def __init__(self, folder):
         self.folder = folder
 
@@ -15,7 +13,7 @@ class Commands:
         print(f"Added origin {url}")
 
     def push(self) -> None:
-        os.system(f"cd {self.folder} && git push")
+        os.system(f"cd {self.folder} && git push --set-upstream origin main")
         print(f"Pushed to origin")
 
     def deleteFolder(self, folder) -> None:
