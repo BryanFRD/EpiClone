@@ -6,18 +6,18 @@ class Commands:
     def __init__(self, folder):
         self.folder = folder
 
-    def clone(self, url):
+    def clone(self, url) -> None:
         os.system(f"git clone {url} {self.folder}")
         print(f"Cloned {url} to {self.folder}")
 
-    def addOrigin(self, url):
+    def addOrigin(self, url) -> None:
         os.system(f"cd {self.folder} && git remote add {self._remote} {url}")
         print(f"Added origin {url}")
 
-    def push(self):
+    def push(self) -> None:
         os.system(f"cd {self.folder} && git push {self._remote} main")
         print(f"Pushed to origin")
 
-    def deleteFolder(self, folder):
+    def deleteFolder(self, folder) -> None:
         os.system(f"rm -rf {folder}")
         print(f"Deleted {folder}")
