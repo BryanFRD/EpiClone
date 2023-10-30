@@ -71,7 +71,6 @@ def cloneMode():
 
         # Delete repository inside the temp folder
         command_repo.deleteFolder(temp_directory + "/" + repository['name'])
-        break
 
     # Delete all repositories inside the temp folder
     commands.deleteFolder(temp_directory)
