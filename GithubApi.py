@@ -52,7 +52,7 @@ class GithubApi:
         else:
             return False
 
-    def getAllRepositoriesByAnOrganization(self, organizationName: string):
+    def getAllRepositoriesByAnOrganization(self, organizationName: string) -> dict:
         url = self.GITHUB_API_URL + f"/orgs/{organizationName}/repos"
         headers = {
             "Authorization": "Bearer " + self._token
