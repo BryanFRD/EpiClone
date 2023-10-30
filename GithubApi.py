@@ -25,7 +25,7 @@ class GithubApi:
             "has_wiki": True
         }
 
-        response = requests.post(url, headers=headers)
+        response = requests.post(url, data, headers=headers)
 
         if response.status_code == 201:
             return True
