@@ -28,10 +28,15 @@ class GithubApi:
         response = requests.post(url, data, headers=headers)
 
         if response.status_code == 201:
+            print(f"\n[SUCCESS] 🟢 Repository '{name}' has been created successfully!\n")
             return True
         else:
-            # Display errors
-            print(response.json())
+            print(f"\n[ERROR] ❌ Failed to create repository '{name}'. Details:")
+            response_data = response.json()
+            if 'message' in response_data:
+                print(f"Error Message: {response_data['message']}")
+            else:
+                print("Error Details:", response_data)
             return False
 
     def checkIfRepositoryExists(self, name) -> bool:
