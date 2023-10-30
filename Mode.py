@@ -61,11 +61,17 @@ def cloneMode():
         if not api.checkIfRepositoryExists(repository['name']):
             api.createNewRepository(repository['name'])
 
+        command_repo = Commands(temp_directory + "/" + repository['name'])
+
         # Add origin to all repositories inside the temp folder
-        command_temp.addOrigin(f"git@github.com:{username}/{repository['name']}.git")
+        command_repo.addOrigin(f"git@github.com:{username}/{repository['name']}.git")
 
         # Push all repositories inside the temp folder
-        command_temp.push()
+        command_repo.push()
+
+        # Delete repository inside the temp folder
+        command_repo.deleteFolder(temp_directory + "/" + repository['name'])
+        break
 
     # Delete all repositories inside the temp folder
     commands.deleteFolder(temp_directory)
