@@ -2,8 +2,8 @@ import string
 import requests
 from PrintHelper import *
 
-class GithubApi:
 
+class GithubApi:
     GITHUB_API_URL = "https://api.github.com"
 
     def __init__(self, token: string, username: string):
@@ -29,15 +29,17 @@ class GithubApi:
         response = requests.post(url, json=data, headers=headers)
 
         if response.status_code == 201:
-            print_success(f"[SUCCESS] 200 : Repository '{name}' has been created successfully!")
+            # print_success(f"[SUCCESS] 200 : Repository '{name}' has been created successfully!")
             return True
         else:
-            print_error(f"\n[ERROR] ❌ Failed to create repository '{name}'. Details:")
+            # print_error(f"\n[ERROR] ❌ Failed to create repository '{name}'. Details:")
             response_data = response.json()
             if 'message' in response_data:
-                print_error(f"Error Message: {response_data['message']}")
+                # print_error(f"Error Message: {response_data['message']}")
+                pass
             else:
-                print_error("Error Details:" + response_data)
+                # print_error("Error Details:" + response_data)
+                pass
             return False
 
     def checkIfRepositoryExists(self, name) -> bool:
@@ -72,7 +74,7 @@ class GithubApi:
 
         response = requests.get(url, headers=headers)
 
-        if(response.status_code == 200):
+        if response.status_code == 200:
             return response.json()
 
     def getUsername(self):

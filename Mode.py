@@ -6,6 +6,9 @@ from GitFolders import GitFolders
 from dotenv import load_dotenv
 from Inputs import *
 import datetime
+from alive_progress import alive_bar
+from tqdm import tqdm
+
 
 # load environment variables
 load_dotenv()
@@ -54,32 +57,37 @@ def cloneMode():
     # Create Commands instance for temp directory
     command_temp = Commands(temp_directory)
 
-    for repository in repositories:
-        # Clone all repositories inside the temp folder
-        command_temp.clone(repository['ssh_url'])
-        repository_updated_at = datetime.date(repository['updated_at'])
+    with tqdm(total=len(repositories), desc="Cloning repositories", unit="repo") as pbar_total:
+        for repository in repositories:
+            # Clone all repositories inside the temp folder
+            command_temp.clone(repository['ssh_url'])
 
-        # Check if repository exists and create it if it doesn't
-        if not api.checkIfRepositoryExists(repository['name']):
-            api.createNewRepository(repository['name'])
+            # Update the total progress bar for each repository cloned
+            pbar_total.update(1)
 
-        command_repo = Commands(temp_directory + "/" + repository['name'])
-        git_folder = GitFolders(temp_directory + "/" + repository['name'])
+            repository_updated_at = datetime.datetime.strptime(repository['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
 
-        github_repo_updated_at = datetime.datetime(api.getRepository(repository['name']))
+            # Check if repository exists and create it if it doesn't
+            if not api.checkIfRepositoryExists(repository['name']):
+                api.createNewRepository(repository['name'])
 
-        if github_repo_updated_at >= repository_updated_at:
-            continue
+            command_repo = Commands(temp_directory + "/" + repository['name'])
+            git_folder = GitFolders(temp_directory + "/" + repository['name'])
 
-        if not git_folder.isEmpty():
-            # Add origin to all repositories inside the temp folder
-            command_repo.addOrigin(f"git@github.com:{username}/{repository['name']}.git")
+            github_repo_updated_at = datetime.datetime.strptime(api.getRepository(repository['name'])['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
 
-            # Push all repositories inside the temp folder
-            command_repo.push()
+            if github_repo_updated_at >= repository_updated_at:
+                continue
 
-        # Delete repository inside the temp folder
-        command_repo.deleteFolder(temp_directory + "/" + repository['name'])
+            if not git_folder.isEmpty():
+                # Add origin to all repositories inside the temp folder
+                command_repo.addOrigin(f"git@github.com:{username}/{repository['name']}.git")
+
+                # Push all repositories inside the temp folder
+                command_repo.push()
+
+            # Delete repository inside the temp folder
+            command_repo.deleteFolder(temp_directory + "/" + repository['name'])
 
     # Delete all repositories inside the temp folder
     commands.deleteFolder(temp_directory)

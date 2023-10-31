@@ -9,7 +9,7 @@ class Commands:
 
     def clone(self, url) -> None:
         os.system(f"cd {self.folder} && git clone {url} --quiet")
-        print_success(f"Cloned {url} to {self.folder}")
+        #print_success(f"Cloned {url} to {self.folder}")
 
     def addOrigin(self, url) -> None:
         os.system(f"cd {self.folder} && git remote add {self._origin} {url}")
@@ -21,7 +21,7 @@ class Commands:
 
     def push(self) -> None:
         os.system(f"cd {self.folder} && git push {self._origin} main --quiet")
-        print_success(f"Pushed to {self._origin}")
+        #print_success(f"Pushed to {self._origin}")
 
     def deleteFolder(self, folder) -> None:
         os.system(f"rm -rf {folder}")
