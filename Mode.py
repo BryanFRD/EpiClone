@@ -48,6 +48,9 @@ def cloneMode():
     # Create Commands instance
     commands = Commands(current_folder)
 
+    if commands.checkIfFolderExists("temp"):
+        commands.deleteFolder("temp")
+
     # Create temp directory
     commands.createTempDirectory()
 
@@ -67,7 +70,8 @@ def cloneMode():
 
             user_repo = api.getRepository(repository['name'])
             github_repo_updated_at = datetime.datetime.strptime(
-                user_repo['updated_at'] if 'updated_at' in user_repo else '0001-01-01T00:00:00Z', '%Y-%m-%dT%H:%M:%SZ')
+                user_repo['updated_at'] if (
+                            user_repo is not None) and 'updated_at' in user_repo else '0001-01-01T00:00:00Z', '%Y-%m-%dT%H:%M:%SZ')
             if github_repo_updated_at >= repository_updated_at:
                 continue
 
@@ -86,7 +90,7 @@ def cloneMode():
                 command_repo.addOrigin(f"git@github.com:{username}/{repository['name']}.git")
 
                 # Push all repositories inside the temp folder
-                command_repo.push()
+                command_repo.push(repository['default_branch'])
 
             # Delete repository inside the temp folder
             command_repo.deleteFolder(temp_directory + "/" + repository['name'])

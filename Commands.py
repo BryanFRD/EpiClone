@@ -19,9 +19,12 @@ class Commands:
         os.system(f"cd {self.folder} && git remote rm {self._origin}")
         #print(f"Removed origin")
 
-    def push(self) -> None:
-        os.system(f"cd {self.folder} && git push {self._origin} main --quiet")
+    def push(self, branch: str = 'main') -> None:
+        os.system(f"cd {self.folder} && git push {self._origin} {branch} --quiet")
         #print_success(f"Pushed to {self._origin}")
+
+    def checkIfFolderExists(self, folder) -> bool:
+        return os.path.isdir(folder)
 
     def deleteFolder(self, folder) -> None:
         os.system(f"rm -rf {folder}")
