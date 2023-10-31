@@ -50,6 +50,9 @@ def cloneMode():
     # Create Commands instance
     commands = Commands(current_folder)
 
+    # clear terminal
+    commands.clearTerminal()
+
     if commands.checkIfFolderExists("temp"):
         commands.deleteFolder("temp")
 

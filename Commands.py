@@ -33,3 +33,7 @@ class Commands:
     def createTempDirectory(self):
         os.system(f"mkdir temp")
         #print(f"Created temp directory")
+
+    def clearTerminal(self):
+        os.system("clear")
+        #print(f"Cleared terminal")
