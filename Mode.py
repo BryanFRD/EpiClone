@@ -9,6 +9,8 @@ import datetime
 from alive_progress import alive_bar
 from tqdm import tqdm
 
+from PrintHelper import print_success
+
 # load environment variables
 load_dotenv()
 
@@ -60,7 +62,7 @@ def cloneMode():
     # Create Commands instance for temp directory
     command_temp = Commands(temp_directory)
 
-    with tqdm(total=len(repositories), desc="Cloning repositories", unit="repo") as pbar_total:
+    with tqdm(total=len(repositories), desc="Cloning repositories", unit="repo", ncols=100) as pbar_total:
         for repository in repositories:
 
             # Update the total progress bar for each repository cloned
@@ -97,3 +99,5 @@ def cloneMode():
 
     # Delete all repositories inside the temp folder
     commands.deleteFolder(temp_directory)
+
+    print_success("All repositories have been cloned successfully!")
