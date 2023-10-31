@@ -18,7 +18,7 @@ class GithubApi:
         }
         data = {
             "name": name,
-            "description": "Project " + name + " created with Epitech's Clone project",
+            "description": "Project " + name + " created with EpiClone",
             "homepage": "https://github.com",
             "private": isPrivate,
             "has_issues": True,
