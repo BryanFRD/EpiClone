@@ -64,5 +64,16 @@ class GithubApi:
         if response.status_code == 200:
             return response.json()
 
+    def getRepository(self, repositoryUrl: string) -> dict:
+        url = self.GITHUB_API_URL + f"/repos/{self._username}/{repositoryUrl}"
+        headers = {
+            "Authorization": "Bearer " + self._token
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if(response.status_code == 200):
+            return response.json()
+
     def getUsername(self):
         return self._username

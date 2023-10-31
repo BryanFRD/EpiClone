@@ -5,10 +5,10 @@ from GithubApi import GithubApi
 from GitFolders import GitFolders
 from dotenv import load_dotenv
 from Inputs import *
+import datetime
 
 # load environment variables
 load_dotenv()
-
 
 def chooseMode():
     return get_mode()
@@ -57,6 +57,7 @@ def cloneMode():
     for repository in repositories:
         # Clone all repositories inside the temp folder
         command_temp.clone(repository['ssh_url'])
+        repository_updated_at = datetime.date(repository['updated_at'])
 
         # Check if repository exists and create it if it doesn't
         if not api.checkIfRepositoryExists(repository['name']):
@@ -64,6 +65,11 @@ def cloneMode():
 
         command_repo = Commands(temp_directory + "/" + repository['name'])
         git_folder = GitFolders(temp_directory + "/" + repository['name'])
+
+        github_repo_updated_at = datetime.datetime(api.getRepository(repository['name']))
+
+        if github_repo_updated_at >= repository_updated_at:
+            continue
 
         if not git_folder.isEmpty():
             # Add origin to all repositories inside the temp folder
