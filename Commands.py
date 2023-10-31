@@ -16,7 +16,7 @@ class Commands:
         #print(f"Added origin {url}")
 
     def removeOrigin(self) -> None:
-        os.system(f"cd {self.folder} && git remote remove {self._origin}")
+        os.system(f"cd {self.folder} && git remote rm {self._origin}")
         #print(f"Removed origin")
 
     def push(self) -> None:
