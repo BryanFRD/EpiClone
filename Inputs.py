@@ -31,11 +31,9 @@ def get_github_username():
 
 
 def get_organization_name():
-    organization_name = input("Enter organization name: ")
+    organization_name = input("Enter organization name (EpitechMscProPromo2026): ")
     if not organization_name:
-        printr("Organization name is required.", Colors.FAIL)
-        printr("Please enter the organization name: ", Colors.BOLD)
-        organization_name = input()
+        return 'EpitechMscProPromo2026'
     return organization_name
 
 
