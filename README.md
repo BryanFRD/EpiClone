@@ -1,6 +1,6 @@
 # EpiClone
 
-:welcome: EpiClone is a tool for get repositories from an organization and clone them into your computer, then the repositories are push to your github account.
+:wave: EpiClone *v1.0.0* is a tool for get repositories from an organization and clone them into your computer, then the repositories are push to your github account.
 
 ## 1. Installation
 
