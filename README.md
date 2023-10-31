@@ -13,15 +13,15 @@ git clone git@github.com:BryanFRD/EpiClone.git
 ```
 ## 2. Install dependencies
 
-```bash
-pip install -r requirements.txt
-```
-## 3. Usage
-
 Go into your EpiClone folder
 ```bash
 cd EpiClone
 ```
+
+```bash
+pip install -r requirements.txt
+```
+## 3. Usage
 
 Running the script
 
