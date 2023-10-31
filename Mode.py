@@ -59,6 +59,10 @@ def cloneMode():
 
     with tqdm(total=len(repositories), desc="Cloning repositories", unit="repo") as pbar_total:
         for repository in repositories:
+
+            # Update the total progress bar for each repository cloned
+            pbar_total.update(1)
+
             repository_updated_at = datetime.datetime.strptime(repository['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
 
             user_repo = api.getRepository(repository['name'])
@@ -69,9 +73,6 @@ def cloneMode():
 
             # Clone all repositories inside the temp folder
             command_temp.clone(repository['ssh_url'])
-
-            # Update the total progress bar for each repository cloned
-            pbar_total.update(1)
 
             # Check if repository exists and create it if it doesn't
             if not api.checkIfRepositoryExists(repository['name']):

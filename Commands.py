@@ -8,7 +8,7 @@ class Commands:
         self.folder = folder
 
     def clone(self, url) -> None:
-        os.system(f"cd {self.folder} && git clone {url} --quiet")
+        os.system(f"cd {self.folder} && git clone {url} --quiet 2>/dev/null")
         #print_success(f"Cloned {url} to {self.folder}")
 
     def addOrigin(self, url) -> None:
