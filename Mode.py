@@ -9,7 +9,7 @@ import datetime
 from alive_progress import alive_bar
 from tqdm import tqdm
 
-from PrintHelper import print_success
+from PrintHelper import *
 
 # load environment variables
 load_dotenv()
@@ -33,6 +33,11 @@ def foldersMode():
 
 
 def cloneMode():
+    # print logo and info about the project
+    print_ecp_logo()
+    print_info()
+
+
     # Get environment variables
     token = get_github_token()
     username = get_github_username()
