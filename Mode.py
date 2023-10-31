@@ -9,9 +9,9 @@ import datetime
 from alive_progress import alive_bar
 from tqdm import tqdm
 
-
 # load environment variables
 load_dotenv()
+
 
 def chooseMode():
     return get_mode()
@@ -59,13 +59,19 @@ def cloneMode():
 
     with tqdm(total=len(repositories), desc="Cloning repositories", unit="repo") as pbar_total:
         for repository in repositories:
+            repository_updated_at = datetime.datetime.strptime(repository['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
+
+            user_repo = api.getRepository(repository['name'])
+            github_repo_updated_at = datetime.datetime.strptime(
+                user_repo['updated_at'] if 'updated_at' in user_repo else '0001-01-01T00:00:00Z', '%Y-%m-%dT%H:%M:%SZ')
+            if github_repo_updated_at >= repository_updated_at:
+                continue
+
             # Clone all repositories inside the temp folder
             command_temp.clone(repository['ssh_url'])
 
             # Update the total progress bar for each repository cloned
             pbar_total.update(1)
-
-            repository_updated_at = datetime.datetime.strptime(repository['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
 
             # Check if repository exists and create it if it doesn't
             if not api.checkIfRepositoryExists(repository['name']):
@@ -73,11 +79,6 @@ def cloneMode():
 
             command_repo = Commands(temp_directory + "/" + repository['name'])
             git_folder = GitFolders(temp_directory + "/" + repository['name'])
-
-            github_repo_updated_at = datetime.datetime.strptime(api.getRepository(repository['name'])['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
-
-            if github_repo_updated_at >= repository_updated_at:
-                continue
 
             if not git_folder.isEmpty():
                 # Add origin to all repositories inside the temp folder
