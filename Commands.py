@@ -47,4 +47,4 @@ class Commands:
         os.system("clear")
 
     def fileExist(self, file_name):
-        return os.path.isfile(file_name)
+        return os.path.exists(f"{self.folder}\\{file_name}")
