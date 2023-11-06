@@ -32,7 +32,10 @@ class Commands:
         return os.path.isdir(folder)
 
     def deleteFolder(self, folder) -> None:
-        os.system(f"rm -rf {folder}")
+        if sys.platform == 'win32' or sys.platform == 'win64':
+            os.system(f"rmdir /s /q {folder}")
+        else:
+            os.system(f"rm -rf {folder}")
         #print(f"Deleted {folder}")
 
     def createTempDirectory(self):
