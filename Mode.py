@@ -93,15 +93,12 @@ def cloneMode():
             command_repo = Commands(temp_directory + separator + repository['name'])
             git_folder = GitFolders(temp_directory + separator + repository['name'])
 
-            if '--force' not in sys.argv and not api.isDifferent(repository):
-                continue
-
             # Clone all repositories inside the temp folder
             command_temp.clone(repository['ssh_url'])
 
             cloned_repositories += 1
 
-            if command_temp.checkIfFolderExists(repository['name']):
+            if not git_folder.isEmpty() and command_temp.checkIfFolderExists(temp_directory + separator + repository['name']):
                 pbar_total.set_description(f"{Colors.OKGREEN}[{repository['name']}] {Colors.ENDC} Pushing repository", True)
 
                 # Add origin to all repositories inside the temp folder
