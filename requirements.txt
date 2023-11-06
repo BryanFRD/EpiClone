@@ -1,4 +1,3 @@
 python-dotenv
 tqdm
-alive_progress
 requests

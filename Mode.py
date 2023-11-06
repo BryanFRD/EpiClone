@@ -6,8 +6,6 @@ from GithubApi import GithubApi
 from GitFolders import GitFolders
 from dotenv import load_dotenv
 from Inputs import *
-import datetime
-from alive_progress import alive_bar
 from tqdm import tqdm
 
 from PrintHelper import *
