@@ -71,9 +71,9 @@ def cloneMode():
     # Create Commands instance for temp directory
     command_temp = Commands(temp_directory)
 
-    with tqdm(total=len(repositories), desc="Starting clone", unit="repo", ncols=200) as pbar_total:
+    with tqdm(total=len(repositories), desc="Starting clone", unit="repo", ncols=150) as pbar_total:
         for repository in repositories:
-            pbar_total.set_description(f"Cloning repositories {repository['name']}", True)
+            pbar_total.set_description(f"[{repository['name']}] Cloning repository", True)
 
             # Update the total progress bar for each repository cloned
             pbar_total.update(1)
@@ -99,6 +99,8 @@ def cloneMode():
             git_folder = GitFolders(temp_directory + "/" + repository['name'])
 
             if not git_folder.isEmpty():
+                pbar_total.set_description(f"[{repository['name']}] Pushing repository", True)
+
                 # Add origin to all repositories inside the temp folder
                 command_repo.addOrigin(f"git@github.com:{username}/{repository['name']}.git")
 
