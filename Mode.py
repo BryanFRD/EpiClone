@@ -77,7 +77,7 @@ def cloneMode():
 
     with tqdm(total=len(repositories), desc="Starting clone", unit="repo") as pbar_total:
         for repository in repositories:
-            pbar_total.set_description(f"{Colors.OKGREEN}[{repository['name']}] {Colors.ENDC} Cloning repository",
+            pbar_total.set_description(f"{Colors.OKGREEN}[{repository['name']}]{Colors.ENDC} Cloning repository",
                                        True)
 
             # Update the total progress bar for each repository cloned
@@ -90,16 +90,18 @@ def cloneMode():
             if '--force' not in sys.argv and not api.isDifferent(repository):
                 continue
 
-            command_repo = Commands(temp_directory + separator + repository['name'])
-            git_folder = GitFolders(temp_directory + separator + repository['name'])
+            folder_path = temp_directory + separator + repository['name']
+            command_repo = Commands(folder_path)
+            git_folder = GitFolders(folder_path)
 
             # Clone all repositories inside the temp folder
             command_temp.clone(repository['ssh_url'])
 
             cloned_repositories += 1
 
-            if not git_folder.isEmpty() and command_temp.checkIfFolderExists(temp_directory + separator + repository['name']):
-                pbar_total.set_description(f"{Colors.OKGREEN}[{repository['name']}] {Colors.ENDC} Pushing repository", True)
+            # Check if folder exists and if it's not empty
+            if command_temp.checkIfFolderExists(folder_path) and not git_folder.isEmpty():
+                pbar_total.set_description(f"{Colors.OKGREEN}[{repository['name']}]{Colors.ENDC} Pushing repository", True)
 
                 # Add origin to all repositories inside the temp folder
                 command_repo.addOrigin(f"git@github.com:{username}/{repository['name']}.git")
