@@ -71,9 +71,9 @@ def cloneMode():
     # Create Commands instance for temp directory
     command_temp = Commands(temp_directory)
 
-    with tqdm(total=len(repositories), desc="Starting clone", unit="repo", ncols=150) as pbar_total:
+    with tqdm(total=len(repositories), desc="Starting clone", unit="repo") as pbar_total:
         for repository in repositories:
-            pbar_total.set_description(f"[{repository['name']}] Cloning repository", True)
+            pbar_total.set_description(f"{Colors.OKGREEN} [{repository['name']}] {Colors.ENDC} Cloning repository", True)
 
             # Update the total progress bar for each repository cloned
             pbar_total.update(1)
@@ -85,7 +85,7 @@ def cloneMode():
             if not api.checkIfRepositoryExists(repository['name']):
                 api.createNewRepository(repository['name'])
 
-            if '--force' not in sys.argv and api.isDifferent(repository):
+            if '--force' not in sys.argv and not api.isDifferent(repository):
                 continue
 
             command_repo = Commands(temp_directory + "/" + repository['name'])
