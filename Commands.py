@@ -32,16 +32,19 @@ class Commands:
         return os.path.isdir(folder)
 
     def deleteFolder(self, folder) -> None:
+        if not self.fileExist(folder):
+            return
+
         if sys.platform == 'win32' or sys.platform == 'win64':
             os.system(f"rmdir /s /q {folder}")
         else:
             os.system(f"rm -rf {folder}")
-        #print(f"Deleted {folder}")
 
     def createTempDirectory(self):
         os.system(f"mkdir temp")
-        #print(f"Created temp directory")
 
     def clearTerminal(self):
         os.system("clear")
-        #print(f"Cleared terminal")
+
+    def fileExist(self, file_name):
+        return os.path.isfile(file_name)

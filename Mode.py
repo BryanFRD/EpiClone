@@ -40,7 +40,6 @@ def cloneMode():
 
     separator = "\\" if sys.platform == 'win32' or sys.platform == 'win64' else "/"
 
-
     # Get environment variables
     token = get_github_token()
     username = get_github_username()
@@ -75,7 +74,8 @@ def cloneMode():
 
     with tqdm(total=len(repositories), desc="Starting clone", unit="repo") as pbar_total:
         for repository in repositories:
-            pbar_total.set_description(f"{Colors.OKGREEN} [{repository['name']}] {Colors.ENDC} Cloning repository", True)
+            pbar_total.set_description(f"{Colors.OKGREEN} [{repository['name']}] {Colors.ENDC} Cloning repository",
+                                       True)
 
             # Update the total progress bar for each repository cloned
             pbar_total.update(1)
@@ -96,7 +96,7 @@ def cloneMode():
             # Clone all repositories inside the temp folder
             command_temp.clone(repository['ssh_url'])
 
-            if not git_folder.isEmpty():
+            if command_temp.fileExist(repository['name']) and not git_folder.isEmpty():
                 pbar_total.set_description(f"[{repository['name']}] Pushing repository", True)
 
                 # Add origin to all repositories inside the temp folder
