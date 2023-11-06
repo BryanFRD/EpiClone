@@ -63,14 +63,12 @@ class GithubApi:
 
         response = requests.get(url, headers=headers)
 
-        self._repository = response.json()
-
         if response.status_code == 200:
             return response.json()
 
-    def getCommits(self, repositoryUrl: string) -> dict:
+    def getCommits(self, repositoryName: string) -> dict:
 
-        repo = self.getRepository(repositoryUrl)
+        repo = self.getRepository(repositoryName)
 
         if repo is not None:
 
@@ -82,6 +80,8 @@ class GithubApi:
 
             if response.status_code == 200:
                 return response.json()
+
+            return {}
 
     def getUsername(self):
         return self._username
@@ -97,8 +97,8 @@ class GithubApi:
             return True
         else:
             # Check if commits are the same
-            last_commit_id = self.getCommits(repository['html_url'])
-            my_last_commit_id = self.getCommits(self._repository['html_url'])
+            last_commit_id = self.getCommits(repository['name'])
+            my_last_commit_id = self.getCommits(self._repository['name'])
             if len(last_commit_id) == len(my_last_commit_id):
                 return False
 

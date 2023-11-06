@@ -78,22 +78,15 @@ def cloneMode():
             # Update the total progress bar for each repository cloned
             pbar_total.update(1)
 
-            repository_updated_at = datetime.datetime.strptime(repository['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
-
-            user_repo = api.getRepository(repository['name'])
-            github_repo_updated_at = datetime.datetime.strptime(
-                user_repo['updated_at'] if (
-                            user_repo is not None) and 'updated_at' in user_repo else '0001-01-01T00:00:00Z', '%Y-%m-%dT%H:%M:%SZ')
-
-            if '--force' not in sys.argv and github_repo_updated_at >= repository_updated_at:
-                continue
-
             # Clone all repositories inside the temp folder
             command_temp.clone(repository['ssh_url'])
 
             # Check if repository exists and create it if it doesn't
             if not api.checkIfRepositoryExists(repository['name']):
                 api.createNewRepository(repository['name'])
+
+            if '--force' not in sys.argv and api.isDifferent(repository):
+                continue
 
             command_repo = Commands(temp_directory + "/" + repository['name'])
             git_folder = GitFolders(temp_directory + "/" + repository['name'])
