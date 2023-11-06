@@ -32,7 +32,7 @@ class Commands:
         return os.path.isdir(folder)
 
     def deleteFolder(self, folder) -> None:
-        if not self.fileExist(folder):
+        if not self.checkIfFolderExists(folder):
             return
 
         if sys.platform == 'win32' or sys.platform == 'win64':
@@ -45,6 +45,3 @@ class Commands:
 
     def clearTerminal(self):
         os.system("clear")
-
-    def fileExist(self, file_name):
-        return os.path.exists(f"{self.folder}\\{file_name}")

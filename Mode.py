@@ -96,7 +96,7 @@ def cloneMode():
             # Clone all repositories inside the temp folder
             command_temp.clone(repository['ssh_url'])
 
-            if command_temp.fileExist(repository['name']) and not git_folder.isEmpty():
+            if command_temp.checkIfFolderExists(repository['name']) and not git_folder.isEmpty():
                 pbar_total.set_description(f"[{repository['name']}] Pushing repository", True)
 
                 # Add origin to all repositories inside the temp folder
