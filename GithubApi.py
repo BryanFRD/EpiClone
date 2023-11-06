@@ -87,10 +87,6 @@ class GithubApi:
         return self._username
 
     def isDifferent(self, repository: dict) -> bool:
-        repository_updated_at = datetime.datetime.strptime(self._repository['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
-        user_repo = self.getRepository(repository['html_url'])
-        github_repo_updated_at = datetime.datetime.strptime(user_repo['updated_at'] if (user_repo is not None) and 'updated_at' in user_repo else '0001-01-01T00:00:00Z','%Y-%m-%dT%H:%M:%SZ')
-
         # Check if commits are the same
         last_commit_id = self.getCommits(repository['name'])
         my_last_commit_id = self.getCommits(self._repository['name'])
