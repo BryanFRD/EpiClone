@@ -1,6 +1,5 @@
 import string
 import datetime
-
 import requests
 from PrintHelper import *
 
@@ -86,15 +85,18 @@ class GithubApi:
     def getUsername(self):
         return self._username
 
-    def isDifferent(self, repositoryUrl: string) -> bool:
+    def isDifferent(self, repository: dict) -> bool:
+        # Check if repository is exist
+        if not self.checkIfRepositoryExists(repository['name']):
+            return True
         repository_updated_at = datetime.datetime.strptime(self._repository['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
-        user_repo = self.getRepository(repositoryUrl)
+        user_repo = self.getRepository(repository['html_url'])
         github_repo_updated_at = datetime.datetime.strptime(user_repo['updated_at'] if (user_repo is not None) and 'updated_at' in user_repo else '0001-01-01T00:00:00Z','%Y-%m-%dT%H:%M:%SZ')
         if github_repo_updated_at >= repository_updated_at:
             return True
         else:
             # Check if commits are the same
-            last_commit_id = self.getCommits(repositoryUrl)
+            last_commit_id = self.getCommits(repository['html_url'])
             my_last_commit_id = self.getCommits(self._repository['html_url'])
             if len(last_commit_id) == len(my_last_commit_id):
                 return False
