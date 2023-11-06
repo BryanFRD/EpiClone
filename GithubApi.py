@@ -23,7 +23,6 @@ class GithubApi:
         response = requests.post(url, json=data, headers=headers)
 
         if response.status_code == 201:
-            self._repository = self.getRepository(name)
             # print_success(f"[SUCCESS] 200 : Repository '{name}' has been created successfully!")
             return True
         else:
@@ -44,6 +43,7 @@ class GithubApi:
         response = requests.get(url, headers=headers)
 
         if response.status_code == 200:
+            self._repository = response.json()
             return True
         else:
             return False
