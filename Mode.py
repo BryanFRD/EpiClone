@@ -72,6 +72,9 @@ def cloneMode():
     # Create Commands instance for temp directory
     command_temp = Commands(temp_directory)
 
+    cloned_repositories = 0
+    pushed_repositories = 0
+
     with tqdm(total=len(repositories), desc="Starting clone", unit="repo") as pbar_total:
         for repository in repositories:
             pbar_total.set_description(f"{Colors.OKGREEN} [{repository['name']}] {Colors.ENDC} Cloning repository",
@@ -96,6 +99,8 @@ def cloneMode():
             # Clone all repositories inside the temp folder
             command_temp.clone(repository['ssh_url'])
 
+            cloned_repositories += 1
+
             if command_temp.checkIfFolderExists(repository['name']) and not git_folder.isEmpty():
                 pbar_total.set_description(f"[{repository['name']}] Pushing repository", True)
 
@@ -105,6 +110,8 @@ def cloneMode():
                 # Push all repositories inside the temp folder
                 command_repo.push(repository['default_branch'])
 
+                pushed_repositories += 1
+
             # Delete repository inside the temp folder
             command_repo.deleteFolder(temp_directory + separator + repository['name'])
 
@@ -112,3 +119,4 @@ def cloneMode():
     commands.deleteFolder(temp_directory)
 
     print_success("All repositories have been cloned successfully!")
+    print_success(f"Pushed {pushed_repositories} repositories out of {cloned_repositories} cloned repositories.")
