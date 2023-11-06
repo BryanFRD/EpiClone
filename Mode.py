@@ -78,9 +78,6 @@ def cloneMode():
             # Update the total progress bar for each repository cloned
             pbar_total.update(1)
 
-            # Clone all repositories inside the temp folder
-            command_temp.clone(repository['ssh_url'])
-
             # Check if repository exists and create it if it doesn't
             if not api.checkIfRepositoryExists(repository['name']):
                 api.createNewRepository(repository['name'])
@@ -90,6 +87,12 @@ def cloneMode():
 
             command_repo = Commands(temp_directory + "/" + repository['name'])
             git_folder = GitFolders(temp_directory + "/" + repository['name'])
+
+            if '--force' not in sys.argv and not api.isDifferent(repository):
+                continue
+
+            # Clone all repositories inside the temp folder
+            command_temp.clone(repository['ssh_url'])
 
             if not git_folder.isEmpty():
                 pbar_total.set_description(f"[{repository['name']}] Pushing repository", True)
