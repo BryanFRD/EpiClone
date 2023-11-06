@@ -101,7 +101,7 @@ def cloneMode():
 
             cloned_repositories += 1
 
-            if command_temp.checkIfFolderExists(repository['name']) and not git_folder.isEmpty():
+            if command_temp.checkIfFolderExists(repository['name']):
                 pbar_total.set_description(f"{Colors.OKGREEN}[{repository['name']}] {Colors.ENDC} Pushing repository", True)
 
                 # Add origin to all repositories inside the temp folder
