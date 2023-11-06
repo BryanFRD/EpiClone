@@ -1,4 +1,5 @@
 import os
+import sys
 from PrintHelper import *
 class Commands:
 
@@ -8,8 +9,12 @@ class Commands:
         self.folder = folder
 
     def clone(self, url) -> None:
-        os.system(f"cd {self.folder} && git clone {url} --quiet 2>/dev/null")
-        #print_success(f"Cloned {url} to {self.folder}")
+        # change if it's Windows
+        if sys.platform == 'win32' or sys.platform == 'win64':
+            os.system(f"cd {self.folder} && git clone {url} --quiet >nul 2>&1")
+        else:
+            os.system(f"cd {self.folder} && git clone {url} --quiet 2>/dev/null")
+
 
     def addOrigin(self, url) -> None:
         os.system(f"cd {self.folder} && git remote add {self._origin} {url}")

@@ -38,6 +38,8 @@ def cloneMode():
     print_ecp_logo()
     print_info()
 
+    separator = "\\" if sys.platform == 'win32' or sys.platform == 'win64' else "/"
+
 
     # Get environment variables
     token = get_github_token()
@@ -66,7 +68,7 @@ def cloneMode():
     commands.createTempDirectory()
 
     # Create Commands instance for temp directory
-    temp_directory = current_folder + "/temp"
+    temp_directory = current_folder + f"{separator}temp"
 
     # Create Commands instance for temp directory
     command_temp = Commands(temp_directory)
@@ -85,8 +87,8 @@ def cloneMode():
             if '--force' not in sys.argv and not api.isDifferent(repository):
                 continue
 
-            command_repo = Commands(temp_directory + "/" + repository['name'])
-            git_folder = GitFolders(temp_directory + "/" + repository['name'])
+            command_repo = Commands(temp_directory + separator + repository['name'])
+            git_folder = GitFolders(temp_directory + separator + repository['name'])
 
             if '--force' not in sys.argv and not api.isDifferent(repository):
                 continue
@@ -104,7 +106,7 @@ def cloneMode():
                 command_repo.push(repository['default_branch'])
 
             # Delete repository inside the temp folder
-            command_repo.deleteFolder(temp_directory + "/" + repository['name'])
+            command_repo.deleteFolder(temp_directory + separator + repository['name'])
 
     # Delete all repositories inside the temp folder
     commands.deleteFolder(temp_directory)
