@@ -2,3 +2,7 @@
 .env
 temp/
 __pycache__/
+dist/
+build/
+main.spec
+venv/

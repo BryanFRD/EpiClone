@@ -1,4 +1,5 @@
 import os
+import sys
 
 from Commands import Commands
 from GithubApi import GithubApi
@@ -70,8 +71,9 @@ def cloneMode():
     # Create Commands instance for temp directory
     command_temp = Commands(temp_directory)
 
-    with tqdm(total=len(repositories), desc="Cloning repositories", unit="repo", ncols=100) as pbar_total:
+    with tqdm(total=len(repositories), desc="Starting clone", unit="repo", ncols=200) as pbar_total:
         for repository in repositories:
+            pbar_total.set_description(f"Cloning repositories {repository['name']}", True)
 
             # Update the total progress bar for each repository cloned
             pbar_total.update(1)
@@ -82,7 +84,8 @@ def cloneMode():
             github_repo_updated_at = datetime.datetime.strptime(
                 user_repo['updated_at'] if (
                             user_repo is not None) and 'updated_at' in user_repo else '0001-01-01T00:00:00Z', '%Y-%m-%dT%H:%M:%SZ')
-            if github_repo_updated_at >= repository_updated_at:
+
+            if '--force' not in sys.argv and github_repo_updated_at >= repository_updated_at:
                 continue
 
             # Clone all repositories inside the temp folder
